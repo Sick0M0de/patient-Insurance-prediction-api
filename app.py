@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from models.predict import Model_verson, model, predict_output
 from schemas.pydantic_model import user_input
+from schemas.pred_respones import PredictionResponse
 
 app = FastAPI()
 
@@ -16,8 +17,8 @@ def health_check():
     return {"status": "OK", "version": Model_verson, "model_loaded": model is not None}
 
 
-@app.post("/predict")
-def premimum_prediction(data: user_input):
+@app.post("/predict", response_model=PredictionResponse)
+def predict_premium(data: user_input):
 
     user_input = {
         "bmi": data.bmi,
@@ -30,9 +31,8 @@ def premimum_prediction(data: user_input):
 
     try:
         prediction = predict_output(user_input)
-        return JSONResponse(
-            status_code=200, content={"predicted premium is ": prediction}
-        )
+
+        return JSONResponse(status_code=200, content={"response": prediction})
 
     except Exception as e:
         return JSONResponse(status_code=500, content=str(e))

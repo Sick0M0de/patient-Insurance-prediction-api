@@ -222,7 +222,7 @@ The trained model is loaded once when the prediction module is initialized, allo
 
 ## 🔮 Future Improvements
 
-* [ ] Dockerize the application
+
 * [ ] Add automated API tests
 * [ ] Add model versioning
 * [ ] Add structured logging
